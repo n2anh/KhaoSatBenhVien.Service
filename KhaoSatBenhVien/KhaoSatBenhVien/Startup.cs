@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,10 +28,7 @@ namespace KhaoSatBenhVien
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.AllowAnyOrigin()
-                                                          .AllowAnyHeader()
-                                                          .AllowAnyMethod();
-
+                                      builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
                                   });
             });
 
@@ -40,12 +36,7 @@ namespace KhaoSatBenhVien
             services.AddDbContext<KhaoSatDbContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.Configure<FormOptions>(o =>
-            {
-                o.ValueLengthLimit = int.MaxValue;
-                o.MultipartBodyLengthLimit = int.MaxValue;
-                o.MemoryBufferThreshold = int.MaxValue;
-            });
+         
             services.AddDirectoryBrowser();
 
             services.AddSwaggerGen(c =>
