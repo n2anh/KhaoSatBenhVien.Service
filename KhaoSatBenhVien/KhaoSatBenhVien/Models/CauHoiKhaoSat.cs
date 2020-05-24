@@ -20,6 +20,5 @@ namespace KhaoSatBenhVien.Models
         [StringLength(100)]
         public string NoiDung { get; set; }
 
-        public MucDoHaiLong MucDoHaiLong { get; set; }
     }
 }

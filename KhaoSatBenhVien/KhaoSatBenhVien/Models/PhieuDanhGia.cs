@@ -24,6 +24,6 @@ namespace KhaoSatBenhVien.Models
 
         public BenhNhan BenhNhan { get; set; }
 
-
+        public BoPhan BoPhan { get; set; }
     }
 }

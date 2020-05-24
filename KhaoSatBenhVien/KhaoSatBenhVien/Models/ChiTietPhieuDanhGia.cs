@@ -23,5 +23,7 @@ namespace KhaoSatBenhVien.Models
 
         public CauHoiKhaoSat CauHoiKhaoSat { get; set; }
 
+
+        public MucDoHaiLong MucDoHaiLong { get; set; }
     }
 }

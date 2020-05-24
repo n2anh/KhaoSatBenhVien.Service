@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KhaoSatBenhVien.Models
 {
@@ -43,7 +40,8 @@ namespace KhaoSatBenhVien.Models
 
         public List<BoPhan> BoPhans { get; set; }
 
-        public List<MucDoHaiLong> MucDoHaiLongs { get; set; }
+        public List<PhieuDanhGia> PhieuDanhGias { get; set; }
+
 
         public List<CanBoBenhVien> CanBoBenhViens { get; set; }
 

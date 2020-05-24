@@ -133,17 +133,12 @@ namespace KhaoSatBenhVien.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("MucDoHaiLongId")
-                        .HasColumnType("int");
-
                     b.Property<string>("NoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MucDoHaiLongId");
 
                     b.ToTable("CauHoiKhaoSats");
                 });
@@ -170,6 +165,8 @@ namespace KhaoSatBenhVien.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CauHoiKhaoSatId");
+
+                    b.HasIndex("MucDoHaiLongId");
 
                     b.HasIndex("PhieuDanhGiaId");
 
@@ -243,9 +240,6 @@ namespace KhaoSatBenhVien.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("BoPhanId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Logo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -256,8 +250,6 @@ namespace KhaoSatBenhVien.Migrations
                         .HasMaxLength(100);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BoPhanId");
 
                     b.ToTable("MucDoHaiLongs");
                 });
@@ -313,6 +305,8 @@ namespace KhaoSatBenhVien.Migrations
 
                     b.HasIndex("BenhNhanId");
 
+                    b.HasIndex("BoPhanId");
+
                     b.ToTable("PhieuDanhGias");
                 });
 
@@ -348,18 +342,17 @@ namespace KhaoSatBenhVien.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("KhaoSatBenhVien.Models.CauHoiKhaoSat", b =>
-                {
-                    b.HasOne("KhaoSatBenhVien.Models.MucDoHaiLong", "MucDoHaiLong")
-                        .WithMany()
-                        .HasForeignKey("MucDoHaiLongId");
-                });
-
             modelBuilder.Entity("KhaoSatBenhVien.Models.ChiTietPhieuDanhGia", b =>
                 {
                     b.HasOne("KhaoSatBenhVien.Models.CauHoiKhaoSat", "CauHoiKhaoSat")
                         .WithMany()
                         .HasForeignKey("CauHoiKhaoSatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KhaoSatBenhVien.Models.MucDoHaiLong", "MucDoHaiLong")
+                        .WithMany()
+                        .HasForeignKey("MucDoHaiLongId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -385,13 +378,6 @@ namespace KhaoSatBenhVien.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("KhaoSatBenhVien.Models.MucDoHaiLong", b =>
-                {
-                    b.HasOne("KhaoSatBenhVien.Models.BoPhan", null)
-                        .WithMany("MucDoHaiLongs")
-                        .HasForeignKey("BoPhanId");
-                });
-
             modelBuilder.Entity("KhaoSatBenhVien.Models.PhanQuyen", b =>
                 {
                     b.HasOne("KhaoSatBenhVien.Models.CanBoBenhVien", "CanBoBenhVien")
@@ -408,6 +394,12 @@ namespace KhaoSatBenhVien.Migrations
                     b.HasOne("KhaoSatBenhVien.Models.BenhNhan", "BenhNhan")
                         .WithMany()
                         .HasForeignKey("BenhNhanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("KhaoSatBenhVien.Models.BoPhan", "BoPhan")
+                        .WithMany("PhieuDanhGias")
+                        .HasForeignKey("BoPhanId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
