@@ -53,7 +53,7 @@ namespace KhaoSatBenhVien.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Logo = table.Column<string>(nullable: false),
+                    Logo = table.Column<string>(nullable: true),
                     NoiDung = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KhaoSatBenhVien.Migrations
 {
     [DbContext(typeof(KhaoSatDbContext))]
-    [Migration("20200524152027_initialize")]
+    [Migration("20200527154014_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -132,7 +132,6 @@ namespace KhaoSatBenhVien.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Logo")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NoiDung")
