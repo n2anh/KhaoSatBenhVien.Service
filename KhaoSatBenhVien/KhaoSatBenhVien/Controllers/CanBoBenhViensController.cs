@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using KhaoSatBenhVien;
 using KhaoSatBenhVien.Models;
+using System.Security.Cryptography.X509Certificates;
+using AutoMapper;
+using KhaoSatBenhVien.ViewModels;
 
 namespace KhaoSatBenhVien.Controllers
 {
@@ -23,9 +26,17 @@ namespace KhaoSatBenhVien.Controllers
 
         // GET: api/CanBoBenhViens
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CanBoBenhVien>>> GetCanBoBenhViens()
+        public async Task<ActionResult<IEnumerable<CanBoBenhVienViewModel>>> GetCanBoBenhViens()
         {
-            return await _context.CanBoBenhViens.ToListAsync();
+            var canBos = await _context.CanBoBenhViens.ToListAsync();
+            var canBoViewModels = Mapper.Map<List<CanBoBenhVien>, List<CanBoBenhVienViewModel>>(canBos);
+
+            foreach (var item in canBoViewModels)
+            {
+                item.BoPhan = _context.BoPhans.Where(x => x.Id == item.BoPhanId).FirstOrDefault();
+            }
+
+            return canBoViewModels;
         }
 
         // GET: api/CanBoBenhViens/5

@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,14 @@ namespace KhaoSatBenhVien
             services.AddDbContext<KhaoSatDbContext>(options =>
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-         
+
+
+            services.AddAutoMapper();
+
+            services.AddSingleton(Mapper.Configuration);
+
+            //services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService));
+
             services.AddDirectoryBrowser();
 
             services.AddSwaggerGen(c =>
