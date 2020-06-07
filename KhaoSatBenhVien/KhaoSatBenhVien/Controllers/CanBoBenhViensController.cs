@@ -1,15 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using KhaoSatBenhVien.Models;
+using KhaoSatBenhVien.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using KhaoSatBenhVien;
-using KhaoSatBenhVien.Models;
-using System.Security.Cryptography.X509Certificates;
-using AutoMapper;
-using KhaoSatBenhVien.ViewModels;
 
 namespace KhaoSatBenhVien.Controllers
 {
@@ -54,8 +50,7 @@ namespace KhaoSatBenhVien.Controllers
         }
 
         // PUT: api/CanBoBenhViens/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCanBoBenhVien(int id, CanBoBenhVien canBoBenhVien)
         {
@@ -86,8 +81,7 @@ namespace KhaoSatBenhVien.Controllers
         }
 
         // POST: api/CanBoBenhViens
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+
         [HttpPost]
         public async Task<ActionResult<CanBoBenhVien>> PostCanBoBenhVien(CanBoBenhVien canBoBenhVien)
         {

@@ -9,10 +9,10 @@ namespace KhaoSatBenhVien.AutoMapper
         public DomainToViewModelMappingProfile()
         {
             CreateMap<CanBoBenhVien, CanBoBenhVienViewModel>();
-           
 
+            CreateMap<ChiTietPhieuDanhGia, ChiTietPhieuDanhGiaViewModel>();
 
-
+            CreateMap<PhieuDanhGia, PhieuDanhGiasViewModel>();
         }
     }
 }

@@ -42,6 +42,18 @@ namespace KhaoSatBenhVien.Controllers
             return benhNhan;
         }
 
+        [HttpGet("/get-by-cmt/{cmt}")]
+        public async Task<ActionResult<BenhNhan>> GetBenhNhan(string cmt)
+        {
+            var benhNhan = await _context.BenhNhans.Where(x => x.CMTND == cmt).FirstOrDefaultAsync();
+            if (benhNhan == null)
+            {
+                return NotFound();
+            }
+
+            return benhNhan;
+        }
+
         // PUT: api/BenhNhans/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.

@@ -1,12 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using KhaoSatBenhVien.Models;
+using KhaoSatBenhVien.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using KhaoSatBenhVien;
-using KhaoSatBenhVien.Models;
 
 namespace KhaoSatBenhVien.Controllers
 {
@@ -78,12 +77,28 @@ namespace KhaoSatBenhVien.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<PhieuDanhGia>> PostPhieuDanhGia(PhieuDanhGia phieuDanhGia)
+        public async Task<ActionResult<PhieuDanhGiasViewModel>> PostPhieuDanhGia(PhieuDanhGiasViewModel phieuDanhGiaView)
         {
+            var phieuDanhGia = Mapper.Map<PhieuDanhGiasViewModel, PhieuDanhGia>(phieuDanhGiaView);
+
             _context.PhieuDanhGias.Add(phieuDanhGia);
+
+            _context.SaveChanges();
+
+            phieuDanhGia = _context.PhieuDanhGias.Where(x => x.BenhNhanId == phieuDanhGiaView.BenhNhanId && x.BoPhanId == phieuDanhGiaView.BoPhanId).OrderByDescending(x => x.Id).FirstOrDefault();
+
+            var chiTietPhieus = Mapper.Map<List<ChiTietPhieuDanhGiaViewModel>, List<ChiTietPhieuDanhGia>>(phieuDanhGiaView.chiTietPhieuDanhs);
+
+            foreach (var item in chiTietPhieus)
+            {
+                item.PhieuDanhGiaId = phieuDanhGia.Id;
+            }
+
+            _context.ChiTietPhieuDanhGias.AddRange(chiTietPhieus);
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPhieuDanhGia", new { id = phieuDanhGia.Id }, phieuDanhGia);
+            return CreatedAtAction("GetPhieuDanhGia", new { id = phieuDanhGia.Id }, phieuDanhGiaView);
         }
 
         // DELETE: api/PhieuDanhGias/5

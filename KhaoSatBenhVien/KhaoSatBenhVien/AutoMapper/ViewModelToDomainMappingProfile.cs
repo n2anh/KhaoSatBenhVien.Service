@@ -10,7 +10,8 @@ namespace KhaoSatBenhVien.AutoMapper
         {
 
             CreateMap<CanBoBenhVienViewModel, CanBoBenhVien>();
-         
+            CreateMap<PhieuDanhGiasViewModel, PhieuDanhGia>();
+            CreateMap<ChiTietPhieuDanhGiaViewModel, ChiTietPhieuDanhGia>();
         }
     }
 }
