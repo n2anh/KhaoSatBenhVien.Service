@@ -21,10 +21,51 @@ namespace KhaoSatBenhVien.Controllers
         }
 
         // GET: api/PhieuDanhGias
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<PhieuDanhGia>>> GetPhieuDanhGias()
+        [HttpPost("get-condition")]
+        public  ActionResult<List<PhieuDanhGiasViewModel>> GetPhieuDanhGias(DieuKienPhieuKhaoSat dieuKien)
         {
-            return await _context.PhieuDanhGias.ToListAsync();
+            var phieuKhaoSats = _context.PhieuDanhGias.ToList();
+            var phieuKhaoSatViewModel = Mapper.Map<List<PhieuDanhGia>, List<PhieuDanhGiasViewModel>>(phieuKhaoSats);
+            
+            if(dieuKien.TuNgay != null)
+            {
+                if (dieuKien.TuNgay < dieuKien.DenNgay)
+                {
+                    phieuKhaoSatViewModel = phieuKhaoSatViewModel.Where(x => x.NgayTao >= dieuKien.TuNgay && x.NgayTao <= dieuKien.DenNgay).ToList();
+                }
+                else
+                {
+                    return BadRequest("Lỗi ngày bắt đầu, kết thúc không hợp lệ!");
+                }
+            }
+
+
+            if (dieuKien.BoPhanId != null)
+            {
+                phieuKhaoSatViewModel = phieuKhaoSatViewModel.Where(x => x.Id == dieuKien.BoPhanId).ToList();
+            }
+
+
+            if(dieuKien.BenhNhanId != null)
+            {
+                phieuKhaoSatViewModel = phieuKhaoSatViewModel.Where(x => x.BenhNhanId == dieuKien.BenhNhanId).ToList();
+            }
+
+
+            foreach (var item in phieuKhaoSatViewModel)
+            {
+                var boPhan = _context.BoPhans.Where(x => x.Id == item.BoPhanId).FirstOrDefault();
+                var boPhanView = Mapper.Map<BoPhan, BoPhanViewModel>(boPhan);
+
+                var benhNhan = _context.BenhNhans.Where(x => x.Id == item.BenhNhanId).FirstOrDefault();
+                var benhNhanView = Mapper.Map<BenhNhan, BenhNhanViewModel>(benhNhan);
+                item.BoPhan = boPhanView;
+
+                item.BenhNhan = benhNhanView;
+            }
+
+            return phieuKhaoSatViewModel;
+
         }
 
         // GET: api/PhieuDanhGias/5

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,5 +20,10 @@ namespace KhaoSatBenhVien.Models
         public string CMTND { get; set; }
 
         List<PhieuDanhGia> PhieuDanhGias { get; set; }
+
+
+        public DateTime? NgayTao { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
+
     }
 }

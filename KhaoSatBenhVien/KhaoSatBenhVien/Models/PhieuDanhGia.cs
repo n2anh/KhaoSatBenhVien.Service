@@ -25,5 +25,8 @@ namespace KhaoSatBenhVien.Models
         public BenhNhan BenhNhan { get; set; }
 
         public BoPhan BoPhan { get; set; }
+
+        public DateTime? NgayTao { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
     }
 }

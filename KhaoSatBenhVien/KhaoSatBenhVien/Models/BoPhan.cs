@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -44,6 +45,9 @@ namespace KhaoSatBenhVien.Models
 
 
         public List<CanBoBenhVien> CanBoBenhViens { get; set; }
+
+        public DateTime? NgayTao { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
 
     }
 }

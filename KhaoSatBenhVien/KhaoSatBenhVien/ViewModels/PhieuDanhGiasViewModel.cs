@@ -1,4 +1,5 @@
-﻿using System;
+﻿using KhaoSatBenhVien.Models;
+using System;
 using System.Collections.Generic;
 
 namespace KhaoSatBenhVien.ViewModels
@@ -11,6 +12,10 @@ namespace KhaoSatBenhVien.ViewModels
 
         public int BoPhanId { get; set; }
 
+        public BenhNhanViewModel BenhNhan { get; set; }
+
+        public BoPhanViewModel BoPhan { get; set; }
+
 
         public DateTime ThoiGianBatDau { get; set; }
 
@@ -21,5 +26,8 @@ namespace KhaoSatBenhVien.ViewModels
         public string AnhDanhGiaKhac { get; set; }
 
         public List<ChiTietPhieuDanhGiaViewModel> chiTietPhieuDanhs { get; set; }
+
+        public DateTime? NgayTao { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
     }
 }

@@ -25,5 +25,7 @@ namespace KhaoSatBenhVien.Models
         public string Icon { get; set; }
 
         List<ChiTietQuyen> ChiTietQuyens { get; set; }
+        public DateTime? NgayTao { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
     }
 }

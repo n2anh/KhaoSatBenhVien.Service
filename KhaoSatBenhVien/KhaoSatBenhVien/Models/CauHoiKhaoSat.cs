@@ -19,5 +19,8 @@ namespace KhaoSatBenhVien.Models
         [StringLength(100)]
         public string NoiDung { get; set; }
 
+        public DateTime? NgayTao { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
+
     }
 }

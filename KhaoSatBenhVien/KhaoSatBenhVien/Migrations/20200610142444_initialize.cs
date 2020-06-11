@@ -14,7 +14,9 @@ namespace KhaoSatBenhVien.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenBenhNhan = table.Column<string>(maxLength: 100, nullable: false),
-                    CMTND = table.Column<string>(maxLength: 12, nullable: false)
+                    CMTND = table.Column<string>(maxLength: 12, nullable: false),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,6 +36,8 @@ namespace KhaoSatBenhVien.Migrations
                     AnhNen = table.Column<string>(nullable: true),
                     ThongTinMoTa = table.Column<string>(nullable: true),
                     LichLamViec = table.Column<string>(maxLength: 500, nullable: true),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true),
                     BoPhanId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
@@ -54,7 +58,9 @@ namespace KhaoSatBenhVien.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Logo = table.Column<string>(nullable: true),
-                    NoiDung = table.Column<string>(maxLength: 100, nullable: false)
+                    NoiDung = table.Column<string>(maxLength: 100, nullable: false),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -69,7 +75,9 @@ namespace KhaoSatBenhVien.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TenChucNang = table.Column<string>(maxLength: 50, nullable: false),
                     DuongDan = table.Column<string>(maxLength: 200, nullable: false),
-                    Icon = table.Column<string>(nullable: false)
+                    Icon = table.Column<string>(nullable: false),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -83,7 +91,9 @@ namespace KhaoSatBenhVien.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Logo = table.Column<string>(nullable: false),
-                    NoiDung = table.Column<string>(maxLength: 100, nullable: false)
+                    NoiDung = table.Column<string>(maxLength: 100, nullable: false),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -96,7 +106,9 @@ namespace KhaoSatBenhVien.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    TenQuyen = table.Column<string>(nullable: false)
+                    TenQuyen = table.Column<string>(nullable: false),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -113,7 +125,9 @@ namespace KhaoSatBenhVien.Migrations
                     ChucVu = table.Column<string>(maxLength: 200, nullable: true),
                     Username = table.Column<string>(maxLength: 50, nullable: false),
                     Password = table.Column<string>(maxLength: 50, nullable: false),
-                    BoPhanId = table.Column<int>(nullable: false)
+                    BoPhanId = table.Column<int>(nullable: false),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -137,7 +151,9 @@ namespace KhaoSatBenhVien.Migrations
                     ThoiGianBatDau = table.Column<DateTime>(nullable: false),
                     ThoiGianKetThuc = table.Column<DateTime>(nullable: false),
                     NoiDungDanhGiaKhac = table.Column<string>(nullable: true),
-                    AnhDanhGiaKhac = table.Column<string>(nullable: true)
+                    AnhDanhGiaKhac = table.Column<string>(nullable: true),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -167,7 +183,9 @@ namespace KhaoSatBenhVien.Migrations
                     QuyenXem = table.Column<bool>(nullable: false),
                     QuyenThem = table.Column<bool>(nullable: false),
                     QuyenSua = table.Column<bool>(nullable: false),
-                    QuyenXoa = table.Column<bool>(nullable: false)
+                    QuyenXoa = table.Column<bool>(nullable: false),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -193,7 +211,9 @@ namespace KhaoSatBenhVien.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CanBoBenhVienId = table.Column<int>(nullable: true),
-                    QuyenId = table.Column<int>(nullable: true)
+                    QuyenId = table.Column<int>(nullable: true),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -221,7 +241,9 @@ namespace KhaoSatBenhVien.Migrations
                     PhieuDanhGiaId = table.Column<int>(nullable: false),
                     CauHoiKhaoSatId = table.Column<int>(nullable: false),
                     MucDoHaiLongId = table.Column<int>(nullable: false),
-                    ThoiGianDanhGia = table.Column<DateTime>(nullable: false)
+                    ThoiGianDanhGia = table.Column<DateTime>(nullable: false),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

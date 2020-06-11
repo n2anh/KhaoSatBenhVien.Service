@@ -31,5 +31,8 @@ namespace KhaoSatBenhVien.Models
         public Quyen Quyen { get; set; }
         public ChucNang ChucNang { get; set; }
 
+        public DateTime? NgayTao { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
+
     }
 }

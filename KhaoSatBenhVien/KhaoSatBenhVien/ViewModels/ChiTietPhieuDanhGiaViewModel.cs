@@ -14,6 +14,8 @@ namespace KhaoSatBenhVien.ViewModels
         public int MucDoHaiLongId { get; set; }
 
         public DateTime ThoiGianDanhGia { get; set; }
+        public DateTime? NgayTao { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
 
     }
 }

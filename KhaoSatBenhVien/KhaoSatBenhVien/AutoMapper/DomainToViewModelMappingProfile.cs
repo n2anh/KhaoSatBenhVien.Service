@@ -13,6 +13,9 @@ namespace KhaoSatBenhVien.AutoMapper
             CreateMap<ChiTietPhieuDanhGia, ChiTietPhieuDanhGiaViewModel>();
 
             CreateMap<PhieuDanhGia, PhieuDanhGiasViewModel>();
+
+            CreateMap<BoPhan, BoPhanViewModel>();
+            CreateMap<BenhNhan, BenhNhanViewModel>();
         }
     }
 }

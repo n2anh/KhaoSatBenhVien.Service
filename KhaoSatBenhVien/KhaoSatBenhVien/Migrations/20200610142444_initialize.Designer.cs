@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KhaoSatBenhVien.Migrations
 {
     [DbContext(typeof(KhaoSatDbContext))]
-    [Migration("20200527154014_initialize")]
+    [Migration("20200610142444_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,12 @@ namespace KhaoSatBenhVien.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(12)")
                         .HasMaxLength(12);
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TenBenhNhan")
                         .IsRequired()
@@ -73,6 +79,12 @@ namespace KhaoSatBenhVien.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("TenBoPhan")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -101,6 +113,12 @@ namespace KhaoSatBenhVien.Migrations
                     b.Property<string>("ChucVu")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -134,6 +152,12 @@ namespace KhaoSatBenhVien.Migrations
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("NoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -156,6 +180,12 @@ namespace KhaoSatBenhVien.Migrations
 
                     b.Property<int>("MucDoHaiLongId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("PhieuDanhGiaId")
                         .HasColumnType("int");
@@ -183,6 +213,12 @@ namespace KhaoSatBenhVien.Migrations
 
                     b.Property<int>("ChucNangId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("QuyenId")
                         .HasColumnType("int");
@@ -224,6 +260,12 @@ namespace KhaoSatBenhVien.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("TenChucNang")
                         .IsRequired()
                         .HasColumnType("nvarchar(50)")
@@ -245,6 +287,12 @@ namespace KhaoSatBenhVien.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("NoiDung")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
@@ -264,6 +312,12 @@ namespace KhaoSatBenhVien.Migrations
 
                     b.Property<int?>("CanBoBenhVienId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("QuyenId")
                         .HasColumnType("int");
@@ -293,6 +347,12 @@ namespace KhaoSatBenhVien.Migrations
                     b.Property<int>("BoPhanId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("NoiDungDanhGiaKhac")
                         .HasColumnType("nvarchar(max)");
 
@@ -317,6 +377,12 @@ namespace KhaoSatBenhVien.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("NgayCapNhat")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("NgayTao")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TenQuyen")
                         .IsRequired()
@@ -352,7 +418,7 @@ namespace KhaoSatBenhVien.Migrations
                         .IsRequired();
 
                     b.HasOne("KhaoSatBenhVien.Models.MucDoHaiLong", "MucDoHaiLong")
-                        .WithMany()
+                        .WithMany("ChiTietPhieuDanhGias")
                         .HasForeignKey("MucDoHaiLongId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -373,7 +439,7 @@ namespace KhaoSatBenhVien.Migrations
                         .IsRequired();
 
                     b.HasOne("KhaoSatBenhVien.Models.Quyen", "Quyen")
-                        .WithMany()
+                        .WithMany("ChiTietQuyens")
                         .HasForeignKey("QuyenId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -386,7 +452,7 @@ namespace KhaoSatBenhVien.Migrations
                         .HasForeignKey("CanBoBenhVienId");
 
                     b.HasOne("KhaoSatBenhVien.Models.Quyen", "Quyen")
-                        .WithMany()
+                        .WithMany("PhanQuyens")
                         .HasForeignKey("QuyenId");
                 });
 

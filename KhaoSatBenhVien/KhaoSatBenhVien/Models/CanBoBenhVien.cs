@@ -36,5 +36,8 @@ namespace KhaoSatBenhVien.Models
         public int BoPhanId { get; set; }
 
         public List<PhanQuyen> PhanQuyens { get; set; }
+
+        public DateTime? NgayTao { get; set; }
+        public DateTime? NgayCapNhat { get; set; }
     }
 }
