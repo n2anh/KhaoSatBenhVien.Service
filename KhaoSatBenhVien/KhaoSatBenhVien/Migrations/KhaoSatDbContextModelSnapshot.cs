@@ -150,6 +150,9 @@ namespace KhaoSatBenhVien.Migrations
                     b.Property<string>("Logo")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MauKhaoSatId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("NgayCapNhat")
                         .HasColumnType("datetime2");
 
@@ -161,7 +164,12 @@ namespace KhaoSatBenhVien.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("MauKhaoSatId");
 
                     b.ToTable("CauHoiKhaoSats");
                 });
@@ -272,6 +280,21 @@ namespace KhaoSatBenhVien.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ChucNangs");
+                });
+
+            modelBuilder.Entity("KhaoSatBenhVien.Models.MauKhaoSat", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MauKhaoSat");
                 });
 
             modelBuilder.Entity("KhaoSatBenhVien.Models.MucDoHaiLong", b =>
@@ -403,6 +426,15 @@ namespace KhaoSatBenhVien.Migrations
                     b.HasOne("KhaoSatBenhVien.Models.BoPhan", null)
                         .WithMany("CanBoBenhViens")
                         .HasForeignKey("BoPhanId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("KhaoSatBenhVien.Models.CauHoiKhaoSat", b =>
+                {
+                    b.HasOne("KhaoSatBenhVien.Models.MauKhaoSat", "MauKhaoSat")
+                        .WithMany("CauHoiKhaoSats")
+                        .HasForeignKey("MauKhaoSatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

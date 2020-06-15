@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using KhaoSatBenhVien.Models.Enums;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KhaoSatBenhVien.Models
 {
@@ -19,8 +17,15 @@ namespace KhaoSatBenhVien.Models
         [StringLength(100)]
         public string NoiDung { get; set; }
 
+        public Status Status { get; set; }
+
         public DateTime? NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
+
+        public int MauKhaoSatId { get; set; }
+
+        public MauKhaoSat MauKhaoSat { get; set; }
+
 
     }
 }

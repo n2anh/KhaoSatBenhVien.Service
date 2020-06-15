@@ -20,5 +20,6 @@ namespace KhaoSatBenhVien
         public DbSet<PhanQuyen> PhanQuyens { get; set; }
         public DbSet<PhieuDanhGia> PhieuDanhGias { get; set; }
         public DbSet<Quyen> Quyens { get; set; }
+        public DbSet<KhaoSatBenhVien.Models.MauKhaoSat> MauKhaoSat { get; set; }
     }
 }

@@ -1,12 +1,10 @@
-﻿using System;
+﻿using KhaoSatBenhVien.Models;
+using KhaoSatBenhVien.Models.Enums;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using KhaoSatBenhVien;
-using KhaoSatBenhVien.Models;
 
 namespace KhaoSatBenhVien.Controllers
 {
@@ -27,6 +25,23 @@ namespace KhaoSatBenhVien.Controllers
         {
             return await _context.CauHoiKhaoSats.ToListAsync();
         }
+
+
+
+        // GET: api/CauHoiKhaoSats
+        [HttpGet("/cau-hoi-khao-sat/{mauCauHoiId}")]
+        public  ActionResult<IEnumerable<CauHoiKhaoSat>> GetCauHoiKhaoSatsByMauCauHoi(int? mauCauHoiId)
+        {
+            var cauHois = _context.CauHoiKhaoSats.Where(x => x.Status == Status.Active).ToList();
+            if (null != mauCauHoiId)
+            {
+                cauHois = cauHois.Where(x => mauCauHoiId == x.MauKhaoSatId).ToList();
+            }
+
+            return cauHois;
+        }
+
+
 
         // GET: api/CauHoiKhaoSats/5
         [HttpGet("{id}")]
@@ -81,6 +96,7 @@ namespace KhaoSatBenhVien.Controllers
         public async Task<ActionResult<CauHoiKhaoSat>> PostCauHoiKhaoSat(CauHoiKhaoSat cauHoiKhaoSat)
         {
             _context.CauHoiKhaoSats.Add(cauHoiKhaoSat);
+            cauHoiKhaoSat.Status = Status.Active;
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCauHoiKhaoSat", new { id = cauHoiKhaoSat.Id }, cauHoiKhaoSat);

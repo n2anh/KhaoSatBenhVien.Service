@@ -52,22 +52,6 @@ namespace KhaoSatBenhVien.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CauHoiKhaoSats",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Logo = table.Column<string>(nullable: true),
-                    NoiDung = table.Column<string>(maxLength: 100, nullable: false),
-                    NgayTao = table.Column<DateTime>(nullable: true),
-                    NgayCapNhat = table.Column<DateTime>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CauHoiKhaoSats", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "ChucNangs",
                 columns: table => new
                 {
@@ -82,6 +66,19 @@ namespace KhaoSatBenhVien.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ChucNangs", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MauKhaoSat",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MauKhaoSat", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -168,6 +165,30 @@ namespace KhaoSatBenhVien.Migrations
                         name: "FK_PhieuDanhGias_BoPhans_BoPhanId",
                         column: x => x.BoPhanId,
                         principalTable: "BoPhans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CauHoiKhaoSats",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Logo = table.Column<string>(nullable: true),
+                    NoiDung = table.Column<string>(maxLength: 100, nullable: false),
+                    Status = table.Column<int>(nullable: false),
+                    NgayTao = table.Column<DateTime>(nullable: true),
+                    NgayCapNhat = table.Column<DateTime>(nullable: true),
+                    MauKhaoSatId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CauHoiKhaoSats", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CauHoiKhaoSats_MauKhaoSat_MauKhaoSatId",
+                        column: x => x.MauKhaoSatId,
+                        principalTable: "MauKhaoSat",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -279,6 +300,11 @@ namespace KhaoSatBenhVien.Migrations
                 column: "BoPhanId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CauHoiKhaoSats_MauKhaoSatId",
+                table: "CauHoiKhaoSats",
+                column: "MauKhaoSatId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChiTietPhieuDanhGias_CauHoiKhaoSatId",
                 table: "ChiTietPhieuDanhGias",
                 column: "CauHoiKhaoSatId");
@@ -352,6 +378,9 @@ namespace KhaoSatBenhVien.Migrations
 
             migrationBuilder.DropTable(
                 name: "Quyens");
+
+            migrationBuilder.DropTable(
+                name: "MauKhaoSat");
 
             migrationBuilder.DropTable(
                 name: "BenhNhans");
