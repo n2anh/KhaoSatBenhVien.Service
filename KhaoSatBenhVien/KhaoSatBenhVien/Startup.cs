@@ -1,6 +1,8 @@
 using AutoMapper;
+using KhaoSatBenhVien.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,6 +40,10 @@ namespace KhaoSatBenhVien
                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
 
+
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                    .AddEntityFrameworkStores<KhaoSatDbContext>()
+                    .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
 

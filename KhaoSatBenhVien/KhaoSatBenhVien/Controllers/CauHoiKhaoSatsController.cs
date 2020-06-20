@@ -1,5 +1,7 @@
-﻿using KhaoSatBenhVien.Models;
+﻿using AutoMapper;
+using KhaoSatBenhVien.Models;
 using KhaoSatBenhVien.Models.Enums;
+using KhaoSatBenhVien.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -21,24 +23,55 @@ namespace KhaoSatBenhVien.Controllers
 
         // GET: api/CauHoiKhaoSats
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CauHoiKhaoSat>>> GetCauHoiKhaoSats()
+        public List<CauHoiKhaoSatViewModel> GetCauHoiKhaoSats()
         {
-            return await _context.CauHoiKhaoSats.ToListAsync();
+            var cauHois = _context.CauHoiKhaoSats.ToList();
+
+          
+            var cauHoisViewModel = Mapper.Map<List<CauHoiKhaoSat>, List<CauHoiKhaoSatViewModel>>(cauHois);
+
+            foreach (var item in cauHoisViewModel)
+            {
+                var mauKhao = _context.MauKhaoSat.Where(x => x.Id == item.MauKhaoSatId).FirstOrDefault();
+                var mauKhaoViewModel = Mapper.Map<MauKhaoSat, MauKhaoSatViewModel>(mauKhao);
+                if (mauKhao != null)
+                {
+                    item.MauKhaoSatViewModel = mauKhaoViewModel;
+                }
+            }
+
+            return cauHoisViewModel;
         }
 
 
 
         // GET: api/CauHoiKhaoSats
-        [HttpGet("/cau-hoi-khao-sat/{mauCauHoiId}")]
-        public  ActionResult<IEnumerable<CauHoiKhaoSat>> GetCauHoiKhaoSatsByMauCauHoi(int? mauCauHoiId)
+        [HttpGet("cau-hoi-khao-sat/{mauCauHoiId}")]
+        public  ActionResult<List<CauHoiKhaoSatViewModel>> GetCauHoiKhaoSatsByMauCauHoi(int? mauCauHoiId)
         {
-            var cauHois = _context.CauHoiKhaoSats.Where(x => x.Status == Status.Active).ToList();
+         
+          
+            var cauHois = _context.CauHoiKhaoSats.Where(x => x.TrangThai == Status.Active).ToList();
+
             if (null != mauCauHoiId)
             {
                 cauHois = cauHois.Where(x => mauCauHoiId == x.MauKhaoSatId).ToList();
             }
 
-            return cauHois;
+
+            var cauHoisViewModel = Mapper.Map<List<CauHoiKhaoSat>, List<CauHoiKhaoSatViewModel>>(cauHois);
+
+            foreach (var item in cauHoisViewModel)
+            {
+                var mauKhao = _context.MauKhaoSat.Where(x => x.Id == item.MauKhaoSatId).FirstOrDefault();
+                var mauKhaoViewModel = Mapper.Map<MauKhaoSat, MauKhaoSatViewModel>(mauKhao);
+                if (mauKhao != null)
+                {
+                    item.MauKhaoSatViewModel = mauKhaoViewModel;
+                }
+            }
+
+            return cauHoisViewModel;
         }
 
 
@@ -90,13 +123,12 @@ namespace KhaoSatBenhVien.Controllers
         }
 
         // POST: api/CauHoiKhaoSats
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
         public async Task<ActionResult<CauHoiKhaoSat>> PostCauHoiKhaoSat(CauHoiKhaoSat cauHoiKhaoSat)
         {
+            cauHoiKhaoSat.TrangThai = Status.Active;
             _context.CauHoiKhaoSats.Add(cauHoiKhaoSat);
-            cauHoiKhaoSat.Status = Status.Active;
+          
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetCauHoiKhaoSat", new { id = cauHoiKhaoSat.Id }, cauHoiKhaoSat);

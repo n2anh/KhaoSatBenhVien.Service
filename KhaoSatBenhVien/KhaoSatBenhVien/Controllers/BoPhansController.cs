@@ -1,12 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using KhaoSatBenhVien.Models;
+using KhaoSatBenhVien.ViewModels;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using KhaoSatBenhVien;
-using KhaoSatBenhVien.Models;
 
 namespace KhaoSatBenhVien.Controllers
 {
@@ -23,40 +22,55 @@ namespace KhaoSatBenhVien.Controllers
 
         // GET: api/BoPhans
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BoPhan>>> GetBoPhans()
+        public ActionResult<IEnumerable<BoPhanViewModel>> GetBoPhans()
         {
-            return await _context.BoPhans.ToListAsync();
+            var bophans = _context.BoPhans.ToList();
+        
+            var boPhanViews = Mapper.Map<List<BoPhan>, List<BoPhanViewModel>>(bophans);
+            foreach (var item in boPhanViews)
+            {
+                var boPhanCha = _context.BoPhans.Where(x => x.Id == item.BoPhanId).FirstOrDefault();
+                if(boPhanCha != null)
+                {
+                    var boPhanChaViewModel = Mapper.Map<BoPhan, BoPhanViewModel>(boPhanCha);
+                    item.BoPhanCha = boPhanChaViewModel;
+                }
+            }
+            return boPhanViews;
         }
 
         // GET: api/BoPhans/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<BoPhan>> GetBoPhan(int id)
+        public ActionResult<BoPhanViewModel> GetBoPhan(int id)
         {
-            var boPhan = await _context.BoPhans.FindAsync(id);
+            var bophans = _context.BoPhans.Where(x => x.Id == id).FirstOrDefault();
 
-            if (boPhan == null)
+            var boPhanViews = Mapper.Map<BoPhan, BoPhanViewModel>(bophans);
+            var boPhanCha = _context.BoPhans.Where(x => x.Id == boPhanViews.BoPhanId).FirstOrDefault();
+            var boPhanChaViewModel = Mapper.Map<BoPhan, BoPhanViewModel>(boPhanCha);
+            boPhanViews.BoPhanCha = boPhanChaViewModel;
+            if (boPhanViews == null)
             {
                 return NotFound();
             }
 
-            return boPhan;
+            return boPhanViews;
         }
 
         // PUT: api/BoPhans/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBoPhan(int id, BoPhan boPhan)
+        public async Task<IActionResult> PutBoPhan(int id, BoPhanViewModel boPhan)
         {
             if (id != boPhan.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(boPhan).State = EntityState.Modified;
+            var boPhanV = Mapper.Map<BoPhanViewModel, BoPhan>(boPhan);
 
             try
             {
+                _context.Update(boPhanV);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
@@ -75,11 +89,10 @@ namespace KhaoSatBenhVien.Controllers
         }
 
         // POST: api/BoPhans
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<BoPhan>> PostBoPhan(BoPhan boPhan)
+        public async Task<ActionResult<BoPhan>> PostBoPhan(BoPhanViewModel boPhanViewModel)
         {
+            var boPhan = Mapper.Map<BoPhanViewModel, BoPhan>(boPhanViewModel);
             _context.BoPhans.Add(boPhan);
             await _context.SaveChangesAsync();
 

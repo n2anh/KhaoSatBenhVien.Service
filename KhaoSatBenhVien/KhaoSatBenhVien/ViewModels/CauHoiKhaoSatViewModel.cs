@@ -1,20 +1,16 @@
 ﻿using KhaoSatBenhVien.Models.Enums;
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace KhaoSatBenhVien.Models
+namespace KhaoSatBenhVien.ViewModels
 {
-    public class CauHoiKhaoSat
+    public class CauHoiKhaoSatViewModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+       
         public int Id { get; set; }
 
         public string Logo { get; set; }
 
-        [Required]
-        [StringLength(100)]
+
         public string NoiDung { get; set; }
 
         public Status TrangThai { get; set; }
@@ -24,8 +20,6 @@ namespace KhaoSatBenhVien.Models
 
         public int? MauKhaoSatId { get; set; }
 
-        public MauKhaoSat MauKhaoSat { get; set; }
-
-
+        public MauKhaoSatViewModel MauKhaoSatViewModel { get; set; }
     }
 }

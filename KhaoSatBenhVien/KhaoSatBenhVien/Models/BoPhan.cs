@@ -39,6 +39,8 @@ namespace KhaoSatBenhVien.Models
         public string LichLamViec { get; set; }
 
 
+        public int? BoPhanId { get; set; }
+
         public List<BoPhan> BoPhans { get; set; }
 
         public List<PhieuDanhGia> PhieuDanhGias { get; set; }

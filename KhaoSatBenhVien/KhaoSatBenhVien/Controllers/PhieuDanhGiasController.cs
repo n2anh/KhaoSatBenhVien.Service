@@ -3,6 +3,8 @@ using KhaoSatBenhVien.Models;
 using KhaoSatBenhVien.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,7 +33,7 @@ namespace KhaoSatBenhVien.Controllers
             {
                 if (dieuKien.TuNgay < dieuKien.DenNgay)
                 {
-                    phieuKhaoSatViewModel = phieuKhaoSatViewModel.Where(x => x.NgayTao >= dieuKien.TuNgay && x.NgayTao <= dieuKien.DenNgay).ToList();
+                    phieuKhaoSatViewModel = phieuKhaoSatViewModel.Where(x => x.NgayTao.Value.Date >= dieuKien.TuNgay.Value.Date && x.NgayTao.Value.Date <= dieuKien.DenNgay.Value.Date).ToList();
                 }
                 else
                 {
@@ -92,6 +94,7 @@ namespace KhaoSatBenhVien.Controllers
             {
                 return BadRequest();
             }
+            phieuDanhGia.NgayCapNhat = DateTime.Now;
 
             _context.Entry(phieuDanhGia).State = EntityState.Modified;
 
@@ -122,17 +125,21 @@ namespace KhaoSatBenhVien.Controllers
         {
             var phieuDanhGia = Mapper.Map<PhieuDanhGiasViewModel, PhieuDanhGia>(phieuDanhGiaView);
 
+            phieuDanhGia.NgayTao = DateTime.Now;
+
             _context.PhieuDanhGias.Add(phieuDanhGia);
 
             _context.SaveChanges();
 
-            phieuDanhGia = _context.PhieuDanhGias.Where(x => x.BenhNhanId == phieuDanhGiaView.BenhNhanId && x.BoPhanId == phieuDanhGiaView.BoPhanId).OrderByDescending(x => x.Id).FirstOrDefault();
+            phieuDanhGia = _context.PhieuDanhGias.Where(x => x.BenhNhanId == phieuDanhGiaView.BenhNhanId && x.BoPhanId == phieuDanhGiaView.BoPhanId)
+                .OrderByDescending(x => x.NgayTao).ToList()[0];
 
             var chiTietPhieus = Mapper.Map<List<ChiTietPhieuDanhGiaViewModel>, List<ChiTietPhieuDanhGia>>(phieuDanhGiaView.chiTietPhieuDanhs);
 
             foreach (var item in chiTietPhieus)
             {
                 item.PhieuDanhGiaId = phieuDanhGia.Id;
+                item.NgayTao = DateTime.Now;
             }
 
             _context.ChiTietPhieuDanhGias.AddRange(chiTietPhieus);

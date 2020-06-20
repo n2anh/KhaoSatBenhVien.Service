@@ -36,9 +36,9 @@ namespace KhaoSatBenhVien.Migrations
                     AnhNen = table.Column<string>(nullable: true),
                     ThongTinMoTa = table.Column<string>(nullable: true),
                     LichLamViec = table.Column<string>(maxLength: 500, nullable: true),
+                    BoPhanId = table.Column<int>(nullable: true),
                     NgayTao = table.Column<DateTime>(nullable: true),
-                    NgayCapNhat = table.Column<DateTime>(nullable: true),
-                    BoPhanId = table.Column<int>(nullable: true)
+                    NgayCapNhat = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -74,7 +74,7 @@ namespace KhaoSatBenhVien.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true)
+                    TenMauKhaoSat = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -177,10 +177,10 @@ namespace KhaoSatBenhVien.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Logo = table.Column<string>(nullable: true),
                     NoiDung = table.Column<string>(maxLength: 100, nullable: false),
-                    Status = table.Column<int>(nullable: false),
+                    TrangThai = table.Column<int>(nullable: false),
                     NgayTao = table.Column<DateTime>(nullable: true),
                     NgayCapNhat = table.Column<DateTime>(nullable: true),
-                    MauKhaoSatId = table.Column<int>(nullable: false)
+                    MauKhaoSatId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -190,7 +190,7 @@ namespace KhaoSatBenhVien.Migrations
                         column: x => x.MauKhaoSatId,
                         principalTable: "MauKhaoSat",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

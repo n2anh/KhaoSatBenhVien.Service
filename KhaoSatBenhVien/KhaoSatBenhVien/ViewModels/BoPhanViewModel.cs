@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KhaoSatBenhVien.ViewModels
 {
@@ -39,5 +36,8 @@ namespace KhaoSatBenhVien.ViewModels
 
         public DateTime? NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }
+
+        public int? BoPhanId { get; set; }
+        public BoPhanViewModel BoPhanCha { get; set; }
     }
 }
