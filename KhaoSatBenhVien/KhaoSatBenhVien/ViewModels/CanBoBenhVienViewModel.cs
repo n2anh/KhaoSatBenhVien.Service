@@ -1,6 +1,5 @@
 ﻿using KhaoSatBenhVien.Models;
 using System;
-using System.Collections.Generic;
 
 namespace KhaoSatBenhVien.ViewModels
 {
@@ -20,9 +19,9 @@ namespace KhaoSatBenhVien.ViewModels
 
         public int BoPhanId { get; set; }
 
-        public BoPhan BoPhan { get; set; }
+        public BoPhanViewModel BoPhan { get; set; }
 
-        public List<PhanQuyen> PhanQuyens { get; set; }
+        public QuyenMapping PhanQuyens { get; set; }
 
         public DateTime? NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }

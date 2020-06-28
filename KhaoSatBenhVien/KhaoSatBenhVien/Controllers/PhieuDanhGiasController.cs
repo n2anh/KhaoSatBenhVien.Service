@@ -3,7 +3,6 @@ using KhaoSatBenhVien.Models;
 using KhaoSatBenhVien.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualBasic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +28,7 @@ namespace KhaoSatBenhVien.Controllers
             var phieuKhaoSats = _context.PhieuDanhGias.ToList();
             var phieuKhaoSatViewModel = Mapper.Map<List<PhieuDanhGia>, List<PhieuDanhGiasViewModel>>(phieuKhaoSats);
             
-            if(dieuKien.TuNgay != null)
+            if(dieuKien.TuNgay != null &&dieuKien.DenNgay != null)
             {
                 if (dieuKien.TuNgay < dieuKien.DenNgay)
                 {
@@ -44,7 +43,7 @@ namespace KhaoSatBenhVien.Controllers
 
             if (dieuKien.BoPhanId != null)
             {
-                phieuKhaoSatViewModel = phieuKhaoSatViewModel.Where(x => x.Id == dieuKien.BoPhanId).ToList();
+                phieuKhaoSatViewModel = phieuKhaoSatViewModel.Where(x => x.BoPhanId == dieuKien.BoPhanId).ToList();
             }
 
 

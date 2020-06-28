@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using KhaoSatBenhVien.Models;
+using System;
 
 namespace KhaoSatBenhVien.ViewModels
 {
@@ -12,6 +10,11 @@ namespace KhaoSatBenhVien.ViewModels
         public int PhieuDanhGiaId { get; set; }
         public int CauHoiKhaoSatId { get; set; }
         public int MucDoHaiLongId { get; set; }
+
+        public CauHoiKhaoSatViewModel CauHoiKhaoSat { get; set; }
+
+        public MucDoHaiLongViewModel MucDoHaiLong { get; set; }
+
 
         public DateTime ThoiGianDanhGia { get; set; }
         public DateTime? NgayTao { get; set; }

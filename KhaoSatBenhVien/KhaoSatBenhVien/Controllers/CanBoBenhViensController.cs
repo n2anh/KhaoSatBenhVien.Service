@@ -29,7 +29,46 @@ namespace KhaoSatBenhVien.Controllers
 
             foreach (var item in canBoViewModels)
             {
-                item.BoPhan = _context.BoPhans.Where(x => x.Id == item.BoPhanId).FirstOrDefault();
+                var phanQuyen = _context.PhanQuyens.Where(x => x.CanBoBenhVienId == item.Id).ToList();
+                item.PhanQuyens = new QuyenMapping();
+                item.PhanQuyens.PhanQuyen = false;  
+                item.PhanQuyens.QuanLyDanhMuc = false;
+                item.PhanQuyens.BaoCao = false;
+                item.PhanQuyens.CaNhan = false;
+                if (phanQuyen.Count != 0)
+                {
+                    foreach (var quyen in phanQuyen)
+                    {
+                        if(quyen.QuyenId == 1)
+                        {
+                            item.PhanQuyens.PhanQuyen = true;
+                           
+                        }
+                        if (quyen.QuyenId == 2)
+                        {
+                            item.PhanQuyens.QuanLyDanhMuc = true;
+
+                        }
+
+                        if (quyen.QuyenId == 3)
+                        {
+                            item.PhanQuyens.BaoCao = true;
+
+                        }
+
+                        if (quyen.QuyenId == 4)
+                        {
+                            item.PhanQuyens.CaNhan = true;
+                        }
+                    }
+                }
+            }
+
+            foreach (var item in canBoViewModels)
+            {
+                var boPhan = _context.BoPhans.Where(x => x.Id == item.BoPhanId).FirstOrDefault();
+                var boPhanView = Mapper.Map<BoPhan, BoPhanViewModel>(boPhan);
+                item.BoPhan = boPhanView;
             }
 
             return canBoViewModels;
@@ -87,6 +126,7 @@ namespace KhaoSatBenhVien.Controllers
         {
             _context.CanBoBenhViens.Add(canBoBenhVien);
             await _context.SaveChangesAsync();
+
 
             return CreatedAtAction("GetCanBoBenhVien", new { id = canBoBenhVien.Id }, canBoBenhVien);
         }

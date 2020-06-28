@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KhaoSatBenhVien.Models
 {
@@ -15,7 +12,11 @@ namespace KhaoSatBenhVien.Models
 
         public CanBoBenhVien CanBoBenhVien { get; set; }
 
+        public int CanBoBenhVienId { get; set; }
+
         public Quyen Quyen { get; set; }
+
+        public int QuyenId { get; set; }
 
         public DateTime? NgayTao { get; set; }
         public DateTime? NgayCapNhat { get; set; }

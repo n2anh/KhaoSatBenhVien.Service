@@ -1,4 +1,6 @@
-﻿using KhaoSatBenhVien.Models;
+﻿using AutoMapper;
+using KhaoSatBenhVien.Models;
+using KhaoSatBenhVien.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -25,19 +27,28 @@ namespace KhaoSatBenhVien.Controllers
             return await _context.ChiTietPhieuDanhGias.ToListAsync();
         }
 
-        // GET: api/ChiTietPhieuDanhGias/5
+        // GET: api/ChiTietPhieuDanhGias
         [HttpGet("{id}")]
-        public async Task<ActionResult<ChiTietPhieuDanhGia>> GetChiTietPhieuDanhGia(int id)
+        public async Task<ActionResult<List<ChiTietPhieuDanhGiaViewModel>>> GetChiTietPhieuDanhGiasById(int id)
         {
-            var chiTietPhieuDanhGia = await _context.ChiTietPhieuDanhGias.FindAsync(id);
+            var chiTiet = await _context.ChiTietPhieuDanhGias.Where(x => x.PhieuDanhGiaId == id).ToListAsync();
+            var chiTietView = Mapper.Map<List<ChiTietPhieuDanhGia>, List<ChiTietPhieuDanhGiaViewModel>>(chiTiet);
 
-            if (chiTietPhieuDanhGia == null)
+            foreach (var chi in chiTietView)
             {
-                return NotFound();
-            }
+                var mucDo = _context.MucDoHaiLongs.Where(x => x.Id == chi.MucDoHaiLongId).FirstOrDefault();
+                var mucDoView = Mapper.Map<MucDoHaiLong, MucDoHaiLongViewModel>(mucDo);
+                chi.MucDoHaiLong = mucDoView;
+                var cauHoi = _context.CauHoiKhaoSats.Where(x => x.Id == chi.CauHoiKhaoSatId).FirstOrDefault();
+                var cauHoiView = Mapper.Map<CauHoiKhaoSat, CauHoiKhaoSatViewModel>(cauHoi);
+                chi.CauHoiKhaoSat = cauHoiView;
 
-            return chiTietPhieuDanhGia;
+            }
+            return chiTietView;
         }
+
+
+
 
         // PUT: api/ChiTietPhieuDanhGias/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for

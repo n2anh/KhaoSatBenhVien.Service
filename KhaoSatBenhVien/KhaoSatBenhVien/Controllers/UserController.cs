@@ -3,10 +3,13 @@ using KhaoSatBenhVien.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,19 +21,16 @@ namespace KhaoSatBenhVien.Controllers
     public class UserController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly KhaoSatDbContext _context;
         private readonly IConfiguration _config;
 
         public UserController(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
             IConfiguration config,
             KhaoSatDbContext context
             )
         {
             _userManager = userManager;
-            _signInManager = signInManager;
             _config = config;
             _context = context;
         }
@@ -40,23 +40,29 @@ namespace KhaoSatBenhVien.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Authencate(LoginRequest request)
         {
-            var user = await _userManager.FindByNameAsync(request.UserName);
-            if (user == null) return null;
+            var user = await _context.CanBoBenhViens.Where(x => x.Username == request.UserName && x.Password == request.Password).FirstOrDefaultAsync();
+            if (user == null) return NotFound();
 
-            var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
-            if (!result.Succeeded)
-            {
-                return null;
-            }
+            var boPhan = _context.BoPhans.Where(x => x.Id == user.BoPhanId).FirstOrDefault();
+
+            var phanQuyens = _context.PhanQuyens.Where(x => x.CanBoBenhVien.Id == user.Id).ToList();
+
+            //var quyens = new List<Quyen>();
+            //foreach (var item in phanQuyens)
+            //{
+            //    var q = _context.Quyens.Where(x => x.Id == item.Quyen.Id).FirstOrDefault();
+            //    quyens.Add(q);
+            //}
+
 
 
             var claims = new[]
             {
-                new Claim("Email",user.Email),
-                new Claim("PhoneNumber", user.PhoneNumber),
-                new Claim("UserName", user.UserName),
+                new Claim("TenCanBo",user.TenCanBo),
+                new Claim("ChucVu", user.ChucVu),
+                new Claim("UserName", user.Username),
                 new Claim("Id", user.Id.ToString()),
-
+                new Claim("BoPhan", boPhan.TenBoPhan),
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));

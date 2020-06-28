@@ -19,6 +19,7 @@ namespace KhaoSatBenhVien.AutoMapper
 
             CreateMap<CauHoiKhaoSatViewModel, CauHoiKhaoSat>();
 
+            CreateMap<MucDoHaiLongViewModel, MucDoHaiLong>();
         }
     }
 }

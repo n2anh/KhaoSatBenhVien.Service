@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace KhaoSatBenhVien.Migrations
 {
     [DbContext(typeof(KhaoSatDbContext))]
-    [Migration("20200620153953_xxx")]
-    partial class xxx
+    [Migration("20200627025637_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -398,7 +398,7 @@ namespace KhaoSatBenhVien.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CanBoBenhVienId")
+                    b.Property<int>("CanBoBenhVienId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("NgayCapNhat")
@@ -407,7 +407,7 @@ namespace KhaoSatBenhVien.Migrations
                     b.Property<DateTime?>("NgayTao")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("QuyenId")
+                    b.Property<int>("QuyenId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -675,11 +675,15 @@ namespace KhaoSatBenhVien.Migrations
                 {
                     b.HasOne("KhaoSatBenhVien.Models.CanBoBenhVien", "CanBoBenhVien")
                         .WithMany("PhanQuyens")
-                        .HasForeignKey("CanBoBenhVienId");
+                        .HasForeignKey("CanBoBenhVienId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("KhaoSatBenhVien.Models.Quyen", "Quyen")
                         .WithMany("PhanQuyens")
-                        .HasForeignKey("QuyenId");
+                        .HasForeignKey("QuyenId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("KhaoSatBenhVien.Models.PhieuDanhGia", b =>
