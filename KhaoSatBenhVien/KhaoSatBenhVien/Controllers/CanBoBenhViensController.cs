@@ -76,16 +76,44 @@ namespace KhaoSatBenhVien.Controllers
 
         // GET: api/CanBoBenhViens/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<CanBoBenhVien>> GetCanBoBenhVien(int id)
+        public async Task<ActionResult<CanBoBenhVienViewModel>> GetCanBoBenhVien(int id)
         {
             var canBoBenhVien = await _context.CanBoBenhViens.FindAsync(id);
-
-            if (canBoBenhVien == null)
+            var canBoViewModels = Mapper.Map<CanBoBenhVien, CanBoBenhVienViewModel>(canBoBenhVien);
+            var phanQuyen = _context.PhanQuyens.Where(x => x.CanBoBenhVienId == canBoViewModels.Id).ToList();
+            canBoViewModels.PhanQuyens = new QuyenMapping();
+            canBoViewModels.PhanQuyens.PhanQuyen = false;
+            canBoViewModels.PhanQuyens.QuanLyDanhMuc = false;
+            canBoViewModels.PhanQuyens.BaoCao = false;
+            canBoViewModels.PhanQuyens.CaNhan = false;
+            if (phanQuyen.Count != 0)
             {
-                return NotFound();
-            }
+                foreach (var quyen in phanQuyen)
+                {
+                    if (quyen.QuyenId == 1)
+                    {
+                        canBoViewModels.PhanQuyens.PhanQuyen = true;
 
-            return canBoBenhVien;
+                    }
+                    if (quyen.QuyenId == 2)
+                    {
+                        canBoViewModels.PhanQuyens.QuanLyDanhMuc = true;
+
+                    }
+
+                    if (quyen.QuyenId == 3)
+                    {
+                        canBoViewModels.PhanQuyens.BaoCao = true;
+
+                    }
+
+                    if (quyen.QuyenId == 4)
+                    {
+                        canBoViewModels.PhanQuyens.CaNhan = true;
+                    }
+                }
+            }
+            return canBoViewModels;
         }
 
         // PUT: api/CanBoBenhViens/5

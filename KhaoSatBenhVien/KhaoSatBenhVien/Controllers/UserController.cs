@@ -74,7 +74,7 @@ namespace KhaoSatBenhVien.Controllers
                 expires: DateTime.Now.AddDays(1),
                 signingCredentials: creds);
 
-            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token), userId = user.Id });
         }
 
 
