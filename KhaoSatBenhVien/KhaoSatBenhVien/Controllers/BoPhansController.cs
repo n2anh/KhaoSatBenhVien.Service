@@ -43,16 +43,32 @@ namespace KhaoSatBenhVien.Controllers
         [HttpGet("{id}")]
         public ActionResult<BoPhanViewModel> GetBoPhan(int id)
         {
+
             var bophans = _context.BoPhans.Where(x => x.Id == id).FirstOrDefault();
 
             var boPhanViews = Mapper.Map<BoPhan, BoPhanViewModel>(bophans);
-            var boPhanCha = _context.BoPhans.Where(x => x.Id == boPhanViews.BoPhanId).FirstOrDefault();
-            var boPhanChaViewModel = Mapper.Map<BoPhan, BoPhanViewModel>(boPhanCha);
-            boPhanViews.BoPhanCha = boPhanChaViewModel;
             if (boPhanViews == null)
             {
                 return NotFound();
             }
+
+            else
+            {
+                var boPhanCha = _context.BoPhans.Where(x => x.Id == boPhanViews.BoPhanId).FirstOrDefault();
+                if(boPhanCha == null)
+                {
+                    boPhanViews.BoPhanCha = null;
+                }
+                else
+                {
+                    var boPhanChaViewModel = Mapper.Map<BoPhan, BoPhanViewModel>(boPhanCha);
+                    boPhanViews.BoPhanCha = boPhanChaViewModel;
+                }
+              
+            }
+       
+
+           
 
             return boPhanViews;
         }
