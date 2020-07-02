@@ -97,5 +97,79 @@ namespace KhaoSatBenhVien.Controllers
 
         
         }
+
+        [HttpPost("bao-cao-theo-muc-do")]
+        public object BaoCaoMucDo_CauHoi(DK_BaoCao_CauhoiMucDo dieuKien)
+        {
+            try
+            {
+                List<MucDoCauHoiReport> mucDoCauHoiReports = new List<MucDoCauHoiReport>();
+
+                var cauhois = _context.CauHoiKhaoSats.ToList();
+
+    
+
+                var cauhoiViews = Mapper.Map<List<CauHoiKhaoSat>, List<CauHoiKhaoSatViewModel>>(cauhois);
+
+
+                var boPhans = _context.BoPhans.ToList();
+
+                foreach (var cauHoi in cauhoiViews)
+                {
+
+                    MucDoCauHoiReport mucDoCau = new MucDoCauHoiReport { CauHoiKhaoSatViewModel = cauHoi, CommonObjects = new List<CommonObject>() };
+                    foreach (var boPhan in boPhans)
+                    {
+                        CommonObject commonObject = new CommonObject();
+                        commonObject.Name = boPhan.TenBoPhan;
+                        commonObject.Value = 0;
+                        mucDoCau.CommonObjects.Add(commonObject);
+                    }
+                    mucDoCauHoiReports.Add(mucDoCau);
+                }
+
+                foreach (var item in mucDoCauHoiReports)
+                {
+                    foreach (var i in item.CommonObjects)
+                    {
+
+
+                        var temp = (from b in _context.BoPhans
+                                    join p in _context.PhieuDanhGias on b.Id equals p.BoPhanId
+                                    join ctp in _context.ChiTietPhieuDanhGias on p.Id equals ctp.PhieuDanhGiaId
+                          
+                                    where i.Name == b.TenBoPhan && ctp.MucDoHaiLongId == dieuKien.MucDoHaiLongId && ctp.CauHoiKhaoSatId == item.CauHoiKhaoSatViewModel.Id
+                                    select new
+                                    {
+                                        b.Id,
+                                        ChiTietPhieuId = ctp.Id,
+                                        NgayTaoPhieu = p.NgayTao,
+                                       
+                                    }).ToList();
+
+                        if (dieuKien.TuNgay != null && dieuKien.DenNgay != null)
+                        {
+                            temp = temp.Where(x => x.NgayTaoPhieu.Value.Date >= dieuKien.TuNgay.Value.Date && x.NgayTaoPhieu.Value.Date <= dieuKien.DenNgay.Value.Date).ToList();
+                        }
+
+                        i.Value = temp.Count;
+                    }
+                }
+
+
+
+
+                return mucDoCauHoiReports;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest("Lỗi không xác định!");
+
+            }
+
+
+
+
+        }
     }
 }
